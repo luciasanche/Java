@@ -1,0 +1,30 @@
+public class MultiSetListIterator<E> implements Iterator<E> {
+  PositionList<Pair<E,Integer>> list;
+  Position<Pair<E,Integer>> cursor;
+  int counter;
+  Position<Pair<E,Integer>> prevCursor;
+  int aux = 0;
+  public MultiSetListIterator(PositionList<Pair<E,Integer>> list) {
+    this.list = list;
+    this.cursor = null;
+    this.prevCursor = null;
+    this.counter = 1;
+  }
+  public void remove() {
+    if (cursor == null || prevCursor == cursor && aux == counter)
+    	throw new IllegalStateException();
+    prevCursor = cursor;
+    if(prevCursor.element().getRight() == 1) {
+    	cursor = list.prev(cursor);
+    	list.remove(prevCursor);
+    }
+    else {
+    	if (counter == 1)
+    		cursor = list.prev(cursor);
+    	else
+    		counter--;
+    	prevCursor.element().setRight(prevCursor.element().getRight()-1);
+    }
+    aux = counter;
+    prevCursor = cursor; 	
+  }}
